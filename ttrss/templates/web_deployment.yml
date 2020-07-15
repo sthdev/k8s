@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      volumes:
+        - name: app
+          persistentVolumeClaim:
+            claimName: app
+      containers:
+        - name: web
+          image: cthulhoo/ttrss-web
+          volumeMounts:
+            - name: app
+              mountPath: /var/www/html
+              readOnly: true
+          ports:
+            - name: http
+              containerPort: 2015
+              protocol: TCP

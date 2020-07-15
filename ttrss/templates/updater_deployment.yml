@@ -1,31 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ttrss-updater
+  name: updater
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
-      app: ttrss-updater
+      app: updater
   template:
     metadata:
       labels:
-        app: ttrss-updater
+        app: updater
     spec:
       volumes:
-        - name: ttrss-app
+        - name: app
           persistentVolumeClaim:
-            claimName: ttrss-app
+            claimName: app
       containers:
-        - name: ttrss-updater
+        - name: updater
           image: cthulhoo/ttrss-fpm-pgsql-static
           volumeMounts:
-            - name: ttrss-app
+            - name: app
               mountPath: /var/www/html
           env:
             - name: DB_TYPE
               value: pgsql
             - name: DB_HOST
-              value: ttrss-db
+              value: db
             - name: DB_NAME
               value: {{ .Values.postgres.user }}
             - name: DB_USER

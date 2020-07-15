@@ -1,25 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ttrss-db
+  name: db
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
-      app: ttrss-db
+      app: db
   template:
     metadata:
       labels:
-        app: ttrss-db
+        app: db
     spec:
       volumes:
-        - name: ttrss-db
+        - name: db
           persistentVolumeClaim:
-            claimName: ttrss-db
+            claimName: db
       containers:
-        - name: ttrss-db
+        - name: db
           image: "postgres:{{ .Values.postgres.version }}"
           volumeMounts:
-            - name: ttrss-db
+            - name: db
               mountPath: /var/lib/postgresql/data
           ports:
             - name: tcp

@@ -1,25 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ttrss-app
+  name: app
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
-      app: ttrss-app
+      app: app
   template:
     metadata:
       labels:
-        app: ttrss-app
+        app: app
     spec:
       volumes:
-        - name: ttrss-app
+        - name: app
           persistentVolumeClaim:
-            claimName: ttrss-app
+            claimName: app
       containers:
-        - name: ttrss-app
+        - name: app
           image: cthulhoo/ttrss-fpm-pgsql-static
           volumeMounts:
-            - name: ttrss-app
+            - name: app
               mountPath: /var/www/html
           ports:
             - name: tcp
@@ -29,7 +30,7 @@ spec:
             - name: DB_TYPE
               value: pgsql
             - name: DB_HOST
-              value: ttrss-db
+              value: db
             - name: DB_NAME
               value: {{ .Values.postgres.user }}
             - name: DB_USER
