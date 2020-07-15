@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ttrss-updater
+spec:
+  selector:
+    matchLabels:
+      app: ttrss-updater
+  template:
+    metadata:
+      labels:
+        app: ttrss-updater
+    spec:
+      volumes:
+        - name: ttrss-app
+          persistentVolumeClaim:
+            claimName: ttrss-app
+      containers:
+        - name: ttrss-updater
+          image: cthulhoo/ttrss-fpm-pgsql-static
+          volumeMounts:
+            - name: ttrss-app
+              mountPath: /var/www/html
+          env:
+            - name: DB_TYPE
+              value: pgsql
+            - name: DB_HOST
+              value: ttrss-db
+            - name: DB_NAME
+              value: {{ .Values.postgres.user }}
+            - name: DB_USER
+              value: {{ .Values.postgres.user }}
+            - name: DB_PASS
+              value: {{ .Values.postgres.password }}
+            - name: OWNER_UID
+              value: "1000"
+            - name: OWNER_GID
+              value: "1000"
+            - name: SELF_URL_PATH
+              value: {{ .Values.ttrss.url }}
+          command: ["/updater.sh"]
