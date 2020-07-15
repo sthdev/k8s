@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-nfs
+spec:
+  selector:
+    matchLabels:
+      app: hello-world-nfs
+  template:
+    metadata:
+      labels:
+        app: hello-world-nfs
+    spec:
+      volumes:
+      - name: hello-world-nfs-data
+        persistentVolumeClaim:
+          claimName: hello-world-nfs-data
+      containers:
+      - name: hello-world-nfs
+        image: nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: hello-world-nfs-data
