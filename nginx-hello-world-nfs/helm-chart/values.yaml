@@ -1,0 +1,15 @@
+replicaCount: 1
+
+exposedNodePort: 30080
+
+resources:
+  compute:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  storage:
+    requests:
+      storage: 10M

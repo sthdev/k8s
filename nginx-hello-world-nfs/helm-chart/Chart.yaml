@@ -1,0 +1,6 @@
+apiVersion: v2
+name: nginx-hello-world-nfs
+description: A very simple nginx web server that uses a persistent volume claim.
+type: application
+version: 0.1.0
+appVersion: latest

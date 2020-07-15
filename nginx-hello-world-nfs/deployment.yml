@@ -24,6 +24,7 @@ spec:
             cpu: "500m"
         ports:
         - containerPort: 80
+          name: http
         volumeMounts:
         - mountPath: /usr/share/nginx/html
           name: hello-world-nfs-data
