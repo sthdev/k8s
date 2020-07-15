@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ttrss
+spec:
+  selector:
+    matchLabels:
+      app: ttrss
+  template:
+    metadata:
+      labels:
+        app: ttrss
+    spec:
+      volumes:
+        - name: ttrss-db
+          persistentVolumeClaim:
+            claimName: ttrss-db
+      containers:
+        - name: db
+          image: "postgres:{{ .Values.postgres.version }}"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: ttrss-db
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.postgres.user }}
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.postgres.password }}
+              # see https://github.com/docker-library/postgres/issues/116#issuecomment-490241287
+              # If this is a mounted NFS share, no_root_squash should be specified.
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
