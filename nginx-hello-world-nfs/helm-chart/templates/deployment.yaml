@@ -16,6 +16,13 @@ spec:
         - name: hello-world-data
           persistentVolumeClaim: 
             claimName: hello-world-data
+      initContainers:
+      - name: create-html
+        image: busybox
+        command: ['sh', '-c', 'echo "{{ .Values.pageContent }}" > /html/index.html']
+        volumeMounts:
+          - mountPath: /html
+            name: hello-world-data
       containers:
         - name: hello-world
           image: "nginx:{{ .Chart.AppVersion }}"

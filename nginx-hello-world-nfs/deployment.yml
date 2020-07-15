@@ -15,6 +15,13 @@ spec:
       - name: hello-world-nfs-data
         persistentVolumeClaim:
           claimName: hello-world-nfs-data
+      initContainers:
+      - name: create-html
+        image: busybox
+        command: ['sh', '-c', 'echo "<html><title>Hello, World!</title><body>COOL!</body></html>" > /html/index.html']
+        volumeMounts:
+          - mountPath: /html
+            name: hello-world-nfs-data
       containers:
       - name: hello-world-nfs
         image: nginx

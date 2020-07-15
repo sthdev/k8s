@@ -2,6 +2,8 @@ replicaCount: 1
 
 exposedNodePort: 30080
 
+pageContent: <html><title>Hello, World!</title><body>This is really cool!</body></html>
+
 resources:
   compute:
     limits:
