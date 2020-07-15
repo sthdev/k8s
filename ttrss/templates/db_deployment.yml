@@ -1,27 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ttrss
+  name: ttrss-db
 spec:
   selector:
     matchLabels:
-      app: ttrss
+      app: ttrss-db
   template:
     metadata:
       labels:
-        app: ttrss
+        app: ttrss-db
     spec:
       volumes:
         - name: ttrss-db
           persistentVolumeClaim:
             claimName: ttrss-db
       containers:
-        - name: db
+        - name: ttrss-db
           image: "postgres:{{ .Values.postgres.version }}"
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: ttrss-db
+            - name: ttrss-db
+              mountPath: /var/lib/postgresql/data
+          ports:
+            - name: tcp
+              containerPort: 5432
+              protocol: TCP
+            - name: udp
+              containerPort: 5432
+              protocol: UDP
           env:
+            - name: POSTGRES_DB
+              value: {{ .Values.postgres.user }}
             - name: POSTGRES_USER
               value: {{ .Values.postgres.user }}
             - name: POSTGRES_PASSWORD

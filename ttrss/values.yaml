@@ -4,6 +4,9 @@ postgres:
   user: postgres
   password: postgres
 
+ttrss:
+  url: http://kube-test1:30081
+
 # Default values for ttrss.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
