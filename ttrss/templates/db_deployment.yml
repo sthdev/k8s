@@ -31,11 +31,17 @@ spec:
               protocol: UDP
           env:
             - name: POSTGRES_DB
-              value: {{ .Values.postgres.user }}
+              value: ttrss
             - name: POSTGRES_USER
-              value: {{ .Values.postgres.user }}
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: db_username
             - name: POSTGRES_PASSWORD
-              value: {{ .Values.postgres.password }}
+              valueFrom: 
+                secretKeyRef:
+                  name: secrets
+                  key: db_password
               # see https://github.com/docker-library/postgres/issues/116#issuecomment-490241287
               # If this is a mounted NFS share, no_root_squash should be specified.
             - name: PGDATA

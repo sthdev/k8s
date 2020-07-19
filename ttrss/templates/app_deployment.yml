@@ -32,11 +32,17 @@ spec:
             - name: DB_HOST
               value: db
             - name: DB_NAME
-              value: {{ .Values.postgres.user }}
+              value: ttrss
             - name: DB_USER
-              value: {{ .Values.postgres.user }}
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: db_username
             - name: DB_PASS
-              value: {{ .Values.postgres.password }}
+              valueFrom: 
+                secretKeyRef:
+                  name: secrets
+                  key: db_password
             - name: OWNER_UID
               value: "1000"
             - name: OWNER_GID

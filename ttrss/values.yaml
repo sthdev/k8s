@@ -2,7 +2,6 @@ namespace: ttrss
 
 postgres: 
   version: 13-alpine
-  #TODO: Put this into a secret
   user: postgres
   password: postgres
 
