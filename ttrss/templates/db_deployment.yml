@@ -29,6 +29,10 @@ spec:
             - name: udp
               containerPort: 5432
               protocol: UDP
+          resources:
+            limits:
+              cpu: "2"
+              memory: "256M"
           env:
             - name: POSTGRES_DB
               value: ttrss

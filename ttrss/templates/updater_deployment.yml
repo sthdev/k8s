@@ -22,6 +22,10 @@ spec:
           volumeMounts:
             - name: app
               mountPath: /var/www/html
+          resources:
+            limits:
+              cpu: "2"
+              memory: "256M"
           env:
             - name: DB_TYPE
               value: pgsql

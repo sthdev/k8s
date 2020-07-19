@@ -26,6 +26,10 @@ spec:
             - name: tcp
               containerPort: 9000
               protocol: TCP
+          resources:
+            limits:
+              cpu: "2"
+              memory: "256M"
           env:
             - name: DB_TYPE
               value: pgsql
@@ -48,4 +52,7 @@ spec:
             - name: OWNER_GID
               value: "1000"
             - name: SELF_URL_PATH
-              value: {{ .Values.ttrss.url }}
+              valueFrom:
+                configMapKeyRef:
+                  name: ttrss-config
+                  key: external_url
